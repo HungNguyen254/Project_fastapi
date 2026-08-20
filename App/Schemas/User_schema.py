@@ -8,6 +8,7 @@ class Userlogin(BaseModel):
     email : str
     password_hash : str
 class UserResponse(BaseModel):
+    message: str
     id : int
     email : str
     full_name : str

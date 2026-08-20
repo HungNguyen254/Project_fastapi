@@ -15,7 +15,7 @@ def handle_register_user(req_info:UserCreateRequest,db:Session):
     new_user = UserModel(
         email = req_info.email,
         full_name = req_info.full_name,
-        password_hash = hash_password,
+        password_hash = hash_password
     )
     db.add(new_user)
     db.commit()
