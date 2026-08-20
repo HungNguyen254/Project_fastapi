@@ -9,7 +9,6 @@ Base.metadata.create_all(bind=engine)
 @app.get('/health')
 def check_health():
     return {'message':'Api is OK'}
-# Cors:chan cac URL tu ben ngoai
 list_origin = [
     'http://localhost:3000'
     'http://localhost:3001'
@@ -21,7 +20,6 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=['*']
 )
-# MiddleWare: De do thoi gian mot API chay tu luc goi den luc hoan thanh
 @app.middleware('http')
 async def handle_calc_time_call_api(req:Request,call_next):
     start_time = time.time()

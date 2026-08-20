@@ -18,3 +18,6 @@ class UserUpdateRequest(BaseModel):
     email : str = Field(...)
     full_name :str = Field(...)
     password_hash : str = Field(...)
+class GetUserInfo(BaseModel):
+    message:str
+    data: UserResponse
