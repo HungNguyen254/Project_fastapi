@@ -3,7 +3,7 @@ from fastapi import Depends
 from App.Database.database import get_db
 from sqlalchemy.orm import Session
 from App.Schemas.User_schema import *
-from App.Service.User import handle_register_user,handle_login_user
+from App.Service.User import handle_register_user,handle_login_user,handle_list_user
 from App.Core.config import setting
 from App.Dependencies.auth import get_current_user
 from App.Dependencies.role.permission import RoleCheck
@@ -45,8 +45,15 @@ def Login_user(req_info:Userlogin,db:Session=Depends(get_db)):
 def Take_info_from_token(data:dict=Depends(get_current_user)):
     return {'message':'Đọc dữ liệu thành công',
             'data':data}
-@auth_router.get('/user',dependencies=[Depends(RoleCheck(['User']))])
+@auth_router.get('/user',dependencies=[Depends(RoleCheck(['Admin']))])
 def get_admin():
     return {
         'message':'login success'
+    }
+@auth_router.get('/users',dependencies=[Depends(RoleCheck(['Admin']))])
+def get_list_user(Info_search:SearchUser=Depends(),db:Session=Depends(get_db)):
+    list_user = handle_list_user(Info_search,db)
+    return {
+        'message':'Danh sach user',
+        'list': list_user
     }

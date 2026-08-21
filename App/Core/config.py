@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-load_dotenv()
+load_dotenv('.env')
 class config():
     def __init__(self):
         self.DB_ScKey = os.getenv('Secret_key')

@@ -3,7 +3,6 @@ from datetime import datetime
 class ConstructionsSiteCreateRequest(BaseModel):
     name : str = Field(...)
     description : str = Field(...)
-    owner_id : int = Field(...)
 class ConstructionsSiteResponse(BaseModel):
     id : int
     name : str

@@ -33,3 +33,6 @@ def handle_login_user(req_info:Userlogin,db:Session):
         'token':token,
         'type_token':'Bearer'
     }
+def handle_list_user(Info_search:SearchUser,db:Session):
+    search_email = db.query(UserModel).filter(UserModel.email.contains(Info_search.email)).all()
+    return search_email

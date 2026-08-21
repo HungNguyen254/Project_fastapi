@@ -22,3 +22,5 @@ class UserUpdateRequest(BaseModel):
 class GetUserInfo(BaseModel):
     message:str
     data: UserResponse
+class SearchUser(BaseModel):
+    email: str
