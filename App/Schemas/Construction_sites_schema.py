@@ -13,4 +13,12 @@ class ConstructionsSiteResponse(BaseModel):
 class ConstructionsSiteUpdateRequest(BaseModel):
     name : str = Field(...)
     description : str = Field(...)
-    owner_id : int = Field(...)
+class ConstructionSearchRequest(BaseModel):
+    id : int 
+    name : str
+    description: str
+    owner_id : int
+    create_at : datetime
+class ConstrucResponseSearch(BaseModel):
+    message: str
+    data : list[ConstructionSearchRequest]

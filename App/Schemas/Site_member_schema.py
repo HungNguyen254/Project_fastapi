@@ -3,7 +3,7 @@ from datetime import datetime
 class SiteMemberCreateRequest(BaseModel):
     site_id:int = Field(...)
     user_id : int = Field(...)
-    role : str = Field(...)
+    role : str = Field(default='Member')
 class SiteMemberResponse(BaseModel):
     id : int
     site_id:int

@@ -20,4 +20,4 @@ def get_current_user(cre:HTTPAuthorizationCredentials=Depends(Security_token)):
     except jwt.ExpiredSignatureError:
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,detail='Token đã hết hạn')
     except jwt.InvalidTokenError:
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,detail=f'Sai token,{setting.DB_algo},{setting.DB_ScKey}')
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,detail=f'Sai token')
