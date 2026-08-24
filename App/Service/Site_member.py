@@ -6,7 +6,7 @@ from App.Models.Site_member import SiteMemberModel
 from App.Core.config import setting
 from App.Schemas.Construction_sites_schema import *
 def Add_member_to_construcsite(user_data:dict,Member_info:SiteMemberCreateRequest,db:Session):
-    
+
     check_excist_site = db.query(ConstructionModel).filter(ConstructionModel.id == Member_info.site_id).first()
     if not check_excist_site:
         return setting.DB_sne

@@ -16,4 +16,6 @@ class config():
         self.Db_delete = os.getenv('Delete_success')
         self.Db_update = os.getenv('update_success')
         self.Db_mne = os.getenv('Member_not_excist')
+        self.Db_wine = os.getenv('work_item_not_excist')
+        self.Db_dne = os.getenv('data_not_exc')
 setting = config()

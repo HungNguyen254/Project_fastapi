@@ -5,8 +5,8 @@ class WorkItemRequest(BaseModel):
     title : str = Field(...)
     description : str = Field(...)
     assignee_id : int = Field(...)
-    status : str = Field(...) 
-    priority : str = Field(...)
+    status : str = Field(default='TODO') 
+    priority : str = Field(default='Medium')
     due_date: datetime = Field(...)
 class WorkItemResponse(BaseModel):
     id : int
@@ -24,6 +24,6 @@ class WorkItemUpdateRequest(BaseModel):
     title : str = Field(...)
     description : str = Field(...)
     assignee_id : int = Field(...)
-    status : str = Field(...)
-    priority : str = Field(...)
+    status : str = Field(default='TODO') 
+    priority : str = Field(default='Medium')
     due_date: datetime = Field(...)
