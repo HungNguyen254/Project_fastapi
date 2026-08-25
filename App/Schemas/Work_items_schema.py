@@ -1,10 +1,8 @@
 from pydantic import BaseModel,EmailStr,Field,ConfigDict
 from datetime import datetime
 class WorkItemRequest(BaseModel):
-    site_id : int = Field(...)
     title : str = Field(...)
     description : str = Field(...)
-    assignee_id : int = Field(...)
     status : str = Field(default='TODO') 
     priority : str = Field(default='Medium')
     due_date: datetime = Field(...)

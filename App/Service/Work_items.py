@@ -11,7 +11,7 @@ from App.Schemas.Construction_sites_schema import *
 def handle_add_workitem(construc_id:int,Info_workitem:WorkItemRequest,user_data:dict,db:Session):
     check_construc = db.query(ConstructionModel).filter(ConstructionModel.id == construc_id).first()
     if not check_construc:
-        return setting.Db_cne
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail=setting.Db_cne)
     check_member_construc = db.query(SiteMemberModel).filter(SiteMemberModel.site_id == construc_id,SiteMemberModel.user_id == user_data['user_id']).first()
     if not check_member_construc:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,detail=setting.DB_no)
@@ -23,9 +23,8 @@ def handle_add_workitem(construc_id:int,Info_workitem:WorkItemRequest,user_data:
         site_id = construc_id,
         title = Info_workitem.title,
         description = Info_workitem.description,
-        assignee_id = user_data['user_id'],
-        status = Info_workitem.status,
-        priority = Info_workitem.priority,
+        status = Info_workitem.status.upper(),
+        priority = Info_workitem.priority.upper(),
         due_date = Info_workitem.due_date
     )
     db.add(new_workitem)
@@ -35,10 +34,10 @@ def handle_add_workitem(construc_id:int,Info_workitem:WorkItemRequest,user_data:
 def handle_search_construc_have_work_item(construc_id:int,user_data:dict,db:Session):
     check_work_item = db.query(ConstructionModel).filter(ConstructionModel.id == construc_id).first()
     if not check_work_item:
-        return setting.Db_cne
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,detail=setting.DB_sne)
     check_work = db.query(WorkItemModel).filter(WorkItemModel.site_id == construc_id,WorkItemModel.assignee_id == user_data['user_id']).all()
     if not check_work:
-        return setting.DB_no
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,detail=setting.DB_no)
     return paginate(check_work)
 def handle_update_work_item(work_item_id:int,Info_update:WorkItemUpdateRequest,user_data:dict,db:Session):
     check_work_item = db.query(WorkItemModel).filter(WorkItemModel.id == work_item_id).first()
