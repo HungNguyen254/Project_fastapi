@@ -18,4 +18,6 @@ class config():
         self.Db_mne = os.getenv('Member_not_excist')
         self.Db_wine = os.getenv('work_item_not_excist')
         self.Db_dne = os.getenv('data_not_exc')
+        self.Db_ed = os.getenv('empty_data')
+        self.Db_ee = os.getenv('EMAIL_adlreay_excist')
 setting = config()

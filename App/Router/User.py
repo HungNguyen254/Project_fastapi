@@ -1,9 +1,11 @@
 from fastapi import APIRouter,status,HTTPException
 from fastapi import Depends
+import jwt
+from App.Core.Security.jwt_token import handle_create_access_token,handle_create_refresh_access_token
 from App.Database.database import get_db
 from sqlalchemy.orm import Session
 from App.Schemas.User_schema import *
-from App.Service.User import handle_register_user,handle_login_user,handle_list_user
+from App.Service.User import handle_register_user,handle_login_user,handle_list_user,handle_refresh_token
 from App.Core.config import setting
 from App.Dependencies.auth import get_current_user
 from App.Dependencies.role.permission import RoleCheck
@@ -50,6 +52,12 @@ def get_admin():
     return {
         'message':'login success'
     }
+@auth_router.get('/user',dependencies=[Depends(RoleCheck(['Admin']))])
+def get_admin(user_data:dict=Depends(get_current_user)):
+    user_data['role'] = 'Admin'
+    return {
+        'message':'login success'
+    }
 @auth_router.get('/users',dependencies=[Depends(RoleCheck(['Admin']))])
 def get_list_user(Info_search:SearchUser=Depends(),db:Session=Depends(get_db)):
     list_user = handle_list_user(Info_search,db)
@@ -57,3 +65,7 @@ def get_list_user(Info_search:SearchUser=Depends(),db:Session=Depends(get_db)):
         'message':'Danh sach user',
         'list': list_user
     }
+@auth_router.post("/refresh")
+def refresh_token(req_info: RefreshTokenRequest):
+    token_to_refresh = handle_refresh_token(req_info)
+    return token_to_refresh

@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from fastapi import HTTPException,status
 from App.Models.Construction_sites import ConstructionModel
 from App.Dependencies.auth import get_current_user
 from App.Schemas.Site_member_schema import *
@@ -6,7 +7,10 @@ from App.Models.Site_member import SiteMemberModel
 from App.Core.config import setting
 from App.Schemas.Construction_sites_schema import *
 def Add_member_to_construcsite(user_data:dict,Member_info:SiteMemberCreateRequest,db:Session):
-
+    if Member_info.site_id == None:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail=setting.Db_ed)
+    if Member_info.user_id == None:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail=setting.Db_ed)
     check_excist_site = db.query(ConstructionModel).filter(ConstructionModel.id == Member_info.site_id).first()
     if not check_excist_site:
         return setting.DB_sne
@@ -29,9 +33,9 @@ def Add_member_to_construcsite(user_data:dict,Member_info:SiteMemberCreateReques
     }
 def handle_only_member_can_watch(member_id:int,db:Session):
     check_member = db.query(SiteMemberModel).filter(SiteMemberModel.user_id == member_id).first()
-    if check_member == []:
+    if not check_member:
         return setting.Db_nos
-    construc = db.query(ConstructionModel).filter(ConstructionModel.id == check_member.user_id).all()
+    construc = db.query(ConstructionModel).filter(ConstructionModel.id == check_member.site_id).all()
     return construc
 def handle_update_member(construc_id:int,site_member_id:int,Info_member_update:SiteMemberUpdateRequest,user_data:dict,db:Session):
     check_member =db.query(SiteMemberModel).filter(SiteMemberModel.user_id == site_member_id,SiteMemberModel.site_id == construc_id).first()
@@ -40,7 +44,11 @@ def handle_update_member(construc_id:int,site_member_id:int,Info_member_update:S
     check_owner = db.query(ConstructionModel).filter(ConstructionModel.id == check_member.site_id,ConstructionModel.owner_id == user_data['user_id']).first()
     if not check_owner:
         return setting.DB_no
-    new_info_update = Info_member_update.model_dump()
+    if Info_member_update.site_id == None:
+        Info_member_update.site_id = SiteMemberModel.site_id
+    if Info_member_update.user_id == None:
+        Info_member_update.user_id = SiteMemberModel.user_id
+    new_info_update = Info_member_update.model_dump(exclude_unset=True)
     for key,value in new_info_update.items():
             setattr(check_member,key,value)
     db.commit()

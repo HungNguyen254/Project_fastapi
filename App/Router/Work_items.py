@@ -1,4 +1,4 @@
-from fastapi import APIRouter,status,HTTPException
+from fastapi import APIRouter,status,HTTPException,UploadFile
 from fastapi import Depends
 from App.Database.database import get_db
 from sqlalchemy.orm import Session
@@ -31,3 +31,8 @@ def update_work_item(work_item_id:int,Info_update:WorkItemUpdateRequest,user_dat
 def delete_work_item(work_item_id:int,user_data:dict=Depends(get_current_user),db:Session=Depends(get_db)):
     delete_work = Handle_delete_work_item(work_item_id,user_data,db)
     return delete_work
+@auth_router.post('/upload_file_img')
+def upload_img(file_img:UploadFile):
+    img = handle_upload_img(file_img)
+    return {'message':'Đã upload file thành công',
+            'data':img}

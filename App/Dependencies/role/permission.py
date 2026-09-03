@@ -6,5 +6,5 @@ class RoleCheck:
     def __call__(self,user_data:dict = Depends(get_current_user)):
         role_name = user_data.get('role','')
         if role_name not in self.role_allow:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail='You not allow to Access')
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail='Bạn không có quyền truy cập chức năng này')
         return user_data

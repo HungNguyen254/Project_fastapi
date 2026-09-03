@@ -5,7 +5,7 @@ class WorkItemRequest(BaseModel):
     description : str = Field(...)
     status : str = Field(default='TODO') 
     priority : str = Field(default='Medium')
-    due_date: datetime = Field(...)
+    due_date: int = Field(...)
 class WorkItemResponse(BaseModel):
     id : int
     site_id : int
@@ -14,7 +14,7 @@ class WorkItemResponse(BaseModel):
     assignee_id : int
     status : str
     priority : str
-    due_date: datetime
+    due_date: int
     create_at : datetime
     model_config= ConfigDict(from_attributes=True)
 class WorkItemUpdateRequest(BaseModel):
@@ -24,4 +24,4 @@ class WorkItemUpdateRequest(BaseModel):
     assignee_id : int = Field(...)
     status : str = Field(default='TODO') 
     priority : str = Field(default='Medium')
-    due_date: datetime = Field(...)
+    due_date: int = Field(...)

@@ -22,8 +22,8 @@ def only_member_can_watch(member_id:int,db:Session=Depends(get_db)):
     check_member = handle_only_member_can_watch(member_id,db)
     return check_member
 @auth_router.delete('/site_member/{member_id}/members',dependencies=[Depends(RoleCheck(['User','Admin']))],status_code = status.HTTP_200_OK)
-def Delete_member(member_id:int,user_data:dict=Depends(get_current_user),db:Session=Depends(get_db)):
-    delete_mem = handle_Delete_member(member_id,user_data,db)
+def Delete_member(construc_id:int,member_id:int,user_data:dict=Depends(get_current_user),db:Session=Depends(get_db)):
+    delete_mem = handle_Delete_member(construc_id,member_id,user_data,db)
     return delete_mem
 @auth_router.patch('site_member/{member_id}/member',dependencies=[Depends(RoleCheck(['User','Admin']))])
 def Update_member(construc_id:int,site_member_id:int,Info_member_update:SiteMemberUpdateRequest,user_data:dict=Depends(get_current_user),db:Session=Depends(get_db)):

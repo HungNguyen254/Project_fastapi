@@ -5,11 +5,22 @@ from fastapi import HTTPException,status
 def handle_create_access_token(user_id:int,role:str,full_name: str):
     time = datetime.now(timezone.utc)
     pay_load ={
+        'type':'access',
         'sub':str(user_id),
         'role':role,
         'full_name':full_name,
         'iat':time,
-        'exp':time + timedelta(minutes=30)
+        'exp':time + timedelta(seconds=30)
+    }
+    return jwt.encode(pay_load,setting.DB_ScKey,algorithm=setting.DB_algo)
+def handle_create_refresh_access_token(user_id:int,role:str,full_name: str):
+    time = datetime.now(timezone.utc)
+    pay_load ={
+        'type':'refresh',
+        'sub':str(user_id),
+        'role':role,
+        'full_name':full_name,
+        'exp':time + timedelta(hours=3)
     }
     return jwt.encode(pay_load,setting.DB_ScKey,algorithm=setting.DB_algo)
 def verify_token(token:str):

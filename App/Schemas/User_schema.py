@@ -24,3 +24,5 @@ class GetUserInfo(BaseModel):
     data: UserResponse
 class SearchUser(BaseModel):
     email: str
+class RefreshTokenRequest(BaseModel):
+    refresh_token:str
