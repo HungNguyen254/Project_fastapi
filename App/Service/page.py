@@ -1,4 +1,4 @@
-def paginate(query, page = 10, limit =  3):
+def paginate(query, page = 1, limit =  2):
     offset = (page - 1) * limit
 
     total = query.count()

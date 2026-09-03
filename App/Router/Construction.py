@@ -7,6 +7,7 @@ from App.Service.construction_site import *
 from App.Core.config import setting
 from App.Dependencies.auth import get_current_user
 from App.Dependencies.role.permission import RoleCheck
+from App.Service.page import *
 from App.Schemas.Site_member_schema import  SiteMemberCreateRequest
 auth_router = APIRouter(
     prefix='/construction-site',
@@ -42,3 +43,7 @@ def Update_construc(construc_id:int,Info_update:ConstructionsSiteUpdateRequest,u
 def Solf_delete_construc(construc_id:int,user_data : dict=Depends(get_current_user),db:Session=Depends(get_db)):
     solf_delete = handle_soft_Delete_construction(user_data,construc_id,db)
     return solf_delete
+@auth_router.get("/construction/page_inate")
+def get_construction(page: int = 1,limit: int = 10,db: Session = Depends(get_db)):
+    query = db.query(ConstructionModel)
+    return paginate(query, page, limit)
